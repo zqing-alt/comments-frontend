@@ -4,24 +4,24 @@
     <p>手机号登录/注册</p>
 
     <!-- fom表单 -->
-    <van-form>
+    <van-form native-type="button">
       <!-- 手机号 -->
       <van-field
-        class="phoneNum"
-        v-model="phoneNum"
+        class="telephone"
+        v-model="telephone"
         placeholder="请输入手机号"
       >
       <van-icon slot="left-icon" name="arrow-down" />
       <label slot="label">中国+86</label>
       </van-field>
       <!-- 代码 -->
-      <van-field class="phoneNum" v-show="phoneNum.trim().length>=11">
+      <van-field class="telephone" v-model="codeValue" v-show="telephone.trim().length>=11">
 
       </van-field>
       <p class="login-question">登录遇到问题</p>
       <div>
         <van-button v-if="flag" type="primary" size="large" round color="#ffce00" @click="getCode">获取短信验证码</van-button>
-        <van-button v-else type="primary" size="large" round color="#ffce00">登录</van-button>
+        <van-button v-else type="primary" size="large" round color="#ffce00" @click="login">登录</van-button>
       </div>
       <p class="register-tip">未注册的手机号验证后自动注册</p>
     </van-form>
@@ -46,26 +46,41 @@
 
 <script>
 // 导入接口
-import { getLoginCode } from '@/api/user'
+import { getLoginCode, login } from '@/api/user'
 
 export default {
   data () {
     return {
       flag: true,
-      phoneNum: '18895661245',
-      codeValue: '000000'
+      telephone: '18895661245',
+      codeValue: '000000',
+      uid: ''
     }
   },
   created () {},
   methods: {
-    getCode () {
-      console.log(111)
+    // 获取验证码
+    async getCode () {
       try {
-        const data = getLoginCode()
+        const data = await getLoginCode(this.telephone)
         console.log(data)
+        this.flag = false
       } catch (error) {
         console.log(error)
       }
+    },
+    // 登录
+    async login () {
+      // 结构data里面的字段
+      let { telephone, codeValue: validateCode, uid } = this
+      try {
+        const { data: { data } } = await login({ telephone, validateCode })
+        uid = data
+      } catch (error) {
+        console.log(error)
+      }
+      // 跳转到home页面
+      this.$router.push('/?uid=' + uid)
     }
   }
 }
@@ -78,7 +93,7 @@ export default {
 
   // form
   .van-form{
-    .phoneNum{
+    .telephone{
       border-bottom: 1px solid #ccc;
     }
     .login-question{
@@ -100,7 +115,7 @@ export default {
       display: flex;
       justify-content:space-evenly;
       >div{
-        margin-top: 30px;
+        margin-top: 70px;
         width: 80px;
         height: 80px;
         border: 1px solid #ccc;
@@ -108,6 +123,10 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
+        >img{
+          width: 40px;
+          height: 40px;
+        }
       }
     }
   }

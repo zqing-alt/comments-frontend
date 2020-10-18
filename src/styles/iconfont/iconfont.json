@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "3216236",
+      "name": "分享，转发",
+      "font_class": "icon--",
+      "unicode": "e78c",
+      "unicode_decimal": 59276
+    },
+    {
       "icon_id": "10025419",
       "name": "下一个",
       "font_class": "next01",
