@@ -5,7 +5,10 @@ const postComment = (storeId, comments) => {
   return request({
     method: 'post',
     url: `/comments/comment/${storeId}`,
-    comments
+    data: {
+      comments
+    }
+
   })
 }
 

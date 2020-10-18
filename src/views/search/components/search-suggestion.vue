@@ -94,7 +94,7 @@ export default {
       return data.replace(reg, str)
     },
     toDetail (id) {
-      this.$router.push(`/detail?id=${id}`)
+      this.$router.push(`/details?id=${id}`)
     }
   }
 }
