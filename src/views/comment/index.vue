@@ -2,7 +2,7 @@
   <div class="comment_container">
     <!-- 标题 -->
     <van-nav-bar
-      title="川西坝子(羊犀2.0直营店)"
+      title="店铺评价"
       left-arrow
       @click-left="onClickLeft"
       @click-right="onClickRight"
@@ -19,8 +19,6 @@
         </div>
       </template>
     </van-nav-bar>
-    <!-- 标题 -->
-
     <!-- 评分 -->
     <div class="comment">
       <span class="comment_total">总体</span>
@@ -125,77 +123,84 @@
         100字+3张图或15秒视频有机会<span class="heght_text">赢100积分</span>
       </div>
     </div>
-
-    <!-- 编辑头像弹层 -->
-    <van-popup
-    v-model="isShowUpdateAvatar"
-    style="height:92%"
-    position="bottom">
-      hello
-    </van-popup>
-    <!-- 编辑头像弹层 -->
+<!--
+      <div class="uploadd_img">
+        <van-image
+        fit="cover"
+        src="https://img.yzcdn.cn/vant/cat.jpeg"
+      />
+      <van-image
+        fit="cover"
+        src="https://img.yzcdn.cn/vant/cat.jpeg"
+      />
+      <van-image
+        fit="cover"
+        src="https://img.yzcdn.cn/vant/cat.jpeg"
+      />
+      </div> -->
 
     <van-cell-group class="recommend_vegetables">
       <van-cell title="推荐菜" value="全部推荐菜" is-link> </van-cell>
     </van-cell-group>
     <div class="recommend_vegetables_tag">
       <van-tag round color="#f3f3f3" text-color="#000" size="large"
-        >标签</van-tag
+        >老八</van-tag
       >
       <van-tag round color="#f3f3f3" text-color="#000" size="large"
-        >标签</van-tag
+        >汉堡</van-tag
       >
       <van-tag round color="#f3f3f3" text-color="#000" size="large"
-        >标签</van-tag
+        >鸡腿</van-tag
       >
       <van-tag round color="#f3f3f3" text-color="#000" size="large"
-        >标签</van-tag
+        >榴莲</van-tag
       >
       <van-tag round color="#f3f3f3" text-color="#000" size="large"
-        >标签</van-tag
-      >
-    </div>
-
-    <div class="recommend_vegetables_tag">
-      <van-tag round color="#f3f3f3" text-color="#000" size="large"
-        >标签</van-tag
-      >
-      <van-tag round color="#f3f3f3" text-color="#000" size="large"
-        >标签</van-tag
-      >
-      <van-tag round color="#f3f3f3" text-color="#000" size="large"
-        >标签</van-tag
-      >
-      <van-tag round color="#f3f3f3" text-color="#000" size="large"
-        >标签</van-tag
-      >
-      <van-tag round color="#f3f3f3" text-color="#000" size="large"
-        >标签</van-tag
+        >鸡排</van-tag
       >
     </div>
 
     <div class="recommend_vegetables_tag">
       <van-tag round color="#f3f3f3" text-color="#000" size="large"
-        >标签</van-tag
+        >龙虾</van-tag
       >
       <van-tag round color="#f3f3f3" text-color="#000" size="large"
-        >标签</van-tag
+        >生蚝</van-tag
       >
       <van-tag round color="#f3f3f3" text-color="#000" size="large"
-        >标签</van-tag
+        >鲍鱼</van-tag
       >
       <van-tag round color="#f3f3f3" text-color="#000" size="large"
-        >标签</van-tag
+        >闸蟹</van-tag
       >
       <van-tag round color="#f3f3f3" text-color="#000" size="large"
-        >标签</van-tag
+        >鱼翅</van-tag
+      >
+    </div>
+
+    <div class="recommend_vegetables_tag">
+      <van-tag round color="#f3f3f3" text-color="#000" size="large"
+        >香蕉</van-tag
+      >
+      <van-tag round color="#f3f3f3" text-color="#000" size="large"
+        >花生</van-tag
+      >
+      <van-tag round color="#f3f3f3" text-color="#000" size="large"
+        >牛奶</van-tag
+      >
+      <van-tag round color="#f3f3f3" text-color="#000" size="large"
+        >鸡蛋</van-tag
+      >
+      <van-tag round color="#f3f3f3" text-color="#000" size="large"
+        >鸭蛋</van-tag
       >
     </div>
   </div>
 </template>
 
 <script>
-import { postComment } from '@/api/comment.js'
+import { postComment, postUploadImg } from '@/api/comment.js'
+// import { updateUserAvatar } from '@/api/uploadimg.js'
 export default {
   name: '',
   components: {},
@@ -220,12 +225,12 @@ export default {
       title: '#外卖小哥辛苦了#',
       // 图片
       picture: '',
-      // 显示图片预览
-      isShowUpdateAvatar: false,
       // 店铺id
-      storeId: null
+      storeId: null,
+      averageScore: 0
     }
   },
+  // todo星星联动
   computed: {
     totalScore () {
       if (this.total === 5) {
@@ -297,10 +302,26 @@ export default {
       }
       return '评分领赏金哦！'
     }
+    /* averageScore () {
+      return parseInt((Math.floor(this.taste + this.environment + this.service + this.food)) / 4)
+    } */
   },
-  watch: {},
+  watch: {
+    taste () {
+      this.total = parseInt((Math.floor(this.taste + this.environment + this.service + this.food)) / 4)
+    },
+    environment () {
+      this.total = parseInt((Math.floor(this.taste + this.environment + this.service + this.food)) / 4)
+    },
+    service () {
+      this.total = parseInt((Math.floor(this.taste + this.environment + this.service + this.food)) / 4)
+    },
+    food () {
+      this.total = parseInt((Math.floor(this.taste + this.environment + this.service + this.food)) / 4)
+    }
+  },
   created () {
-    this.storeId = this.$router.query.id
+    this.storeId = this.$route.query.id
   },
   mounted () {},
   methods: {
@@ -311,7 +332,7 @@ export default {
 
     // 提交表单到后台
     async onClickRight () {
-      const { data } = await postComment(this.storeId, {
+      const { data } = await postComment(1, {
         total: this.total - 0,
         taste: this.taste - 0,
         environment: this.environment - 0,
@@ -325,15 +346,32 @@ export default {
       console.log(data)
     },
 
-    // todo 上传图片
-    inputChange () {
-      /* // 获取文件对象
+    // todo 上传图片 需要后台提供接口
+    async inputChange () {
+      // 获取文件对象
       const file = this.$refs.inputFile.files[0]
+      console.log(file)
       // 获取blob数据
-      const imgUrl = window.URL.createObjectURL(file)
-      console.log(imgUrl)
-      this.isShowUpdateAvatar = true
-       */
+      // const imgUrl = window.URL.createObjectURL(file)
+      // console.log(imgUrl)
+      this.$toast.loading({
+        message: '保存中...',
+        forbidClick: true,
+        loadingType: 'spinner',
+        duration: 0
+      })
+      try {
+        const formData = new FormData()
+        formData.append('photo', file)
+        console.log(formData)
+        const { data } = await postUploadImg(formData)
+        // 关闭弹层，更新视图
+        console.log(data)
+        this.$toast('更新成功')
+      } catch (err) {
+        console.log(err)
+        this.$toast('更新失败')
+      }
     },
 
     // 添加标题
@@ -480,4 +518,15 @@ export default {
   margin-right: 14px;
   padding: 6px 12px;
 }
+
+/* .uploadd_img{
+  height: 90px;
+  // background-color: orange;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .van-image{
+    width: 33%;
+  }
+} */
 </style>

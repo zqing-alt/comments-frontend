@@ -15,7 +15,7 @@
     <!-- 店铺信息区域 -->
     <div class="detail_info">
       <div class="info_header">
-        <div class="info_header_title">川西坝子(羊犀2.0直营店)</div>
+        <div class="info_header_title">{{detailInfo.name}}</div>
         <img src="../../styles/image/矢量智能对象@2x.png" @click="goToComment"/>
       </div>
       <div class="info_comment">
@@ -27,15 +27,15 @@
           <van-icon name="star" />
           <van-icon name="play" />
         </span>
-        <span>9999条</span>
-        <span>¥100/人</span>
+        <span>{{detailInfo.sale}}条</span>
+        <span>¥{{detailInfo.price}}/人</span>
       </div>
       <div class="info_mark">
-        <span>口味:4.82</span>
-        <span>口味:4.82</span>
-        <span>口味:4.82</span>
-        <span>口味:4.82</span>
-        <span class="store_style">四川火锅</span>
+        <span>口味:{{detailInfo.taste}}</span>
+        <span>服务:{{detailInfo.service}}</span>
+        <span>食材:{{detailInfo.food}}</span>
+        <span>总评:{{detailInfo.total}}</span>
+        <span class="store_style">{{detailInfo.category}}</span>
       </div>
     </div>
 
@@ -75,7 +75,7 @@
         <template #title>
           <div>
             <span class="detail_time_status"
-              >蜀西路46号盛大国际2栋(羊西线三 环外侧)</span
+              >{{detailInfo.address}}</span
             >
           </div>
         </template>
@@ -133,29 +133,40 @@
 </template>
 
 <script>
+import { getDetail } from '@/api/comment.js'
 export default {
   name: 'Details',
   components: {},
   props: {},
   data () {
     return {
-      storeId: null
+      storeId: 1,
+      detailInfo: {}
     }
   },
   computed: {},
   watch: {},
-  created () {
-    this.storeId = this.$router.query.id
+  beforeMount () {
+    this.getDetailInfo(this.storeId)
   },
-  mounted () {},
+  created () {
+    this.storeId = this.$route.query.id
+  },
+  mounted () {
+  },
   methods: {
     goToComment () {
       this.$router.push({
         path: '/comment',
         query: {
-          id: this.storeId
+          id: this.storeId ? this.storeId : 1
         }
       })
+    },
+    async getDetailInfo (id) {
+      const { data: res } = await getDetail(id)
+      if (res.code !== 200) return console.log('请求失败')
+      this.detailInfo = res.data
     }
   }
 }
