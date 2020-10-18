@@ -138,15 +138,24 @@ export default {
   components: {},
   props: {},
   data () {
-    return {}
+    return {
+      storeId: null
+    }
   },
   computed: {},
   watch: {},
-  created () {},
+  created () {
+    this.storeId = this.$router.query.id
+  },
   mounted () {},
   methods: {
     goToComment () {
-      this.$router.push({ path: '/comment' })
+      this.$router.push({
+        path: '/comment',
+        query: {
+          id: this.storeId
+        }
+      })
     }
   }
 }
