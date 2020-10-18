@@ -342,7 +342,6 @@ export default {
         topic: this.topic,
         title: this.title
       })
-
       console.log(data)
     },
 
