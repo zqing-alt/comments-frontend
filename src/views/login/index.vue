@@ -16,6 +16,7 @@
       </van-field>
       <!-- 代码 -->
       <van-field
+      v-if="!flag"
         class="telephone"
         v-model="codeValue"
         v-show="telephone.trim().length >= 11"
@@ -83,8 +84,11 @@ export default {
   data () {
     return {
       flag: true,
+      // telephone: '18895661245',
       telephone: '18895661245',
-      codeValue: '000000',
+      // codeValue: '000000',
+      codeValue: '',
+      // isCodeShow: false,
       uid: ''
     }
   },
@@ -112,9 +116,10 @@ export default {
       } catch (error) {
         console.log(error)
       }
+      // 先存储数据,再跳转页面
+      sessionStorage.setItem('USER_ID', uid)
       // 跳转到home页面
       this.$router.push('/')
-      sessionStorage.setItem('USER_ID', uid)
     },
     // 跳转到home页面
     goHome () {

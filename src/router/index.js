@@ -21,12 +21,17 @@ const routes = [
   {
     path: '/comment',
     name: 'comment',
-    component: () => import('@/views/comment')
+    component: () => import('@/views/comment'),
+    beforeEnter: (to, from, next) => {
+      const USER_ID = sessionStorage.getItem('USER_ID')
+      if (!USER_ID) return next('/login')
+    }
   },
   {
     path: '/details',
     name: 'details',
     component: () => import('@/views/details')
+
   }
 ]
 
@@ -35,11 +40,11 @@ const router = new VueRouter({
 })
 
 // 路由拦截器
-router.beforeEach((to, from, next) => {
-  if (to.path === '/login') return next()
-  const USER_ID = sessionStorage.getItem('USER_ID')
-  if (!USER_ID) return next('/login')
-  next()
-})
+// router.beforeEach((to, from, next) => {
+//   if (to.path === '/login') return next()
+//   const USER_ID = sessionStorage.getItem('USER_ID')
+//   if (!USER_ID) return next('/login')
+//   next()
+// })
 
 export default router
