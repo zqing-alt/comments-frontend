@@ -25,18 +25,77 @@
     <div class="comment">
       <span class="comment_total">总体</span>
       <van-rate
-        v-model="value"
+        v-model="total"
         color="#ffd21e"
         void-icon="star"
         void-color="#eee"
         :size="30"
       />
+      <div class="describe_comment">
+        {{totalScore}}
+      </div>
+    </div>
+    <!-- 开始隐藏的星星 -->
+    <div v-if="total">
+      <div class="comment">
+        <span class="comment_total">口味</span>
+        <van-rate
+          v-model="taste"
+          color="#ffd21e"
+          void-icon="star"
+          void-color="#eee"
+          :size="30"
+        />
+        <div class="describe_comment">
+          {{tasteScore}}
+        </div>
+      </div>
+
+      <div class="comment">
+        <span class="comment_total">环境</span>
+        <van-rate
+          v-model="environment"
+          color="#ffd21e"
+          void-icon="star"
+          void-color="#eee"
+          :size="30"
+        />
+        <div class="describe_comment">
+          {{environmentScore}}
+        </div>
+      </div>
+      <div class="comment">
+        <span class="comment_total">服务</span>
+        <van-rate
+          v-model="service"
+          color="#ffd21e"
+          void-icon="star"
+          void-color="#eee"
+          :size="30"
+        />
+        <div class="describe_comment">
+          {{serviceScore}}
+        </div>
+      </div>
+      <div class="comment">
+        <span class="comment_total">食材</span>
+        <van-rate
+          v-model="food"
+          color="#ffd21e"
+          void-icon="star"
+          void-color="#eee"
+          :size="30"
+        />
+        <div class="describe_comment">
+          {{foodScore}}
+        </div>
+      </div>
     </div>
 
     <!-- 评论区域 -->
     <div>
       <van-field
-        v-model="message"
+        v-model="describes"
         rows="5"
         autosize
         type="textarea"
@@ -44,16 +103,17 @@
         placeholder="可分享口味，环境，服务，食材等方面的体验 还可以用菜品标签评价菜品哦！"
       />
       <div class="comment_tips">写15个字，有机会被采纳为精选点评</div>
-      <van-button icon="plus" plain round size="small">
+      <van-button icon="plus" plain round size="small" @click="addTitle">
         标题
       </van-button>
-      <van-button icon="plus" plain round size="small">
+      <van-button icon="plus" plain round size="small" @click="addTopic">
         话题
       </van-button>
     </div>
     <!-- 上传图片视频区域 -->
+    <input type="file" hidden ref="inputFile" @change="inputChange">
     <div class="upload_container">
-      <div class="upload_img">
+      <div class="upload_img" @click="$refs.inputFile.click()">
         <img src="../../styles/image/zhaopian.png" />
         <span>上传图片</span>
       </div>
@@ -65,6 +125,15 @@
         100字+3张图或15秒视频有机会<span class="heght_text">赢100积分</span>
       </div>
     </div>
+
+    <!-- 编辑头像弹层 -->
+    <van-popup
+    v-model="isShowUpdateAvatar"
+    style="height:92%"
+    position="bottom">
+      hello
+    </van-popup>
+    <!-- 编辑头像弹层 -->
 
     <van-cell-group class="recommend_vegetables">
       <van-cell title="推荐菜" value="全部推荐菜" is-link> </van-cell>
@@ -126,23 +195,152 @@
 </template>
 
 <script>
+import { postComment } from '@/api/comment.js'
 export default {
   name: '',
   components: {},
   props: {},
   data () {
     return {
-      value: 0,
-      message: ''
+      // 总体评分
+      total: 0,
+      // 口味
+      taste: 5,
+      // 环境
+      environment: 5,
+      // 服务
+      service: 5,
+      // 食材
+      food: 5,
+      // 描述
+      describes: '',
+      // 话题
+      topic: '#成都美食推荐#',
+      // 标题
+      title: '#外卖小哥辛苦了#',
+      // 图片
+      picture: '',
+      // 显示图片预览
+      isShowUpdateAvatar: false
     }
   },
-  computed: {},
+  computed: {
+    totalScore () {
+      if (this.total === 5) {
+        return '极力推荐'
+      } else if (this.total === 4) {
+        return '超赞'
+      } else if (this.total === 3) {
+        return '满意'
+      } else if (this.total === 2) {
+        return '一般'
+      } else if (this.total === 1) {
+        return '很差'
+      }
+      return '评分领赏金哦！'
+    },
+    tasteScore () {
+      if (this.taste === 5) {
+        return '极力推荐'
+      } else if (this.taste === 4) {
+        return '超赞'
+      } else if (this.taste === 3) {
+        return '满意'
+      } else if (this.taste === 2) {
+        return '一般'
+      } else if (this.taste === 1) {
+        return '很差'
+      }
+      return '评分领赏金哦！'
+    },
+    environmentScore () {
+      if (this.environment === 5) {
+        return '极力推荐'
+      } else if (this.environment === 4) {
+        return '超赞'
+      } else if (this.environment === 3) {
+        return '满意'
+      } else if (this.environment === 2) {
+        return '一般'
+      } else if (this.environment === 1) {
+        return '很差'
+      }
+      return '评分领赏金哦！'
+    },
+    serviceScore () {
+      if (this.service === 5) {
+        return '极力推荐'
+      } else if (this.service === 4) {
+        return '超赞'
+      } else if (this.service === 3) {
+        return '满意'
+      } else if (this.service === 2) {
+        return '一般'
+      } else if (this.service === 1) {
+        return '很差'
+      }
+      return '评分领赏金哦！'
+    },
+    foodScore () {
+      if (this.food === 5) {
+        return '极力推荐'
+      } else if (this.food === 4) {
+        return '超赞'
+      } else if (this.food === 3) {
+        return '满意'
+      } else if (this.food === 2) {
+        return '一般'
+      } else if (this.food === 1) {
+        return '很差'
+      }
+      return '评分领赏金哦！'
+    }
+  },
   watch: {},
   created () {},
   mounted () {},
   methods: {
-    onClickLeft () {},
-    onClickRight () {}
+    // 返回上一页
+    onClickLeft () {
+      this.$router.push({ path: '/details' })
+    },
+
+    // 提交表单到后台
+    async onClickRight () {
+      const { data } = await postComment(1, {
+        total: this.total,
+        taste: this.taste,
+        environment: this.environment,
+        service: this.service,
+        food: this.food,
+        describe: this.describes,
+        topic: this.topic,
+        title: this.title
+      })
+
+      console.log(data)
+    },
+
+    // todo 上传图片
+    inputChange () {
+      /* // 获取文件对象
+      const file = this.$refs.inputFile.files[0]
+      // 获取blob数据
+      const imgUrl = window.URL.createObjectURL(file)
+      console.log(imgUrl)
+      this.isShowUpdateAvatar = true
+       */
+    },
+
+    // 添加标题
+    addTitle () {
+      this.describes += '#外卖小哥辛苦了#'
+    },
+
+    // 添加话题
+    addTopic () {
+      this.describes += '#成都美食推荐#'
+    }
   }
 }
 </script>
@@ -184,6 +382,13 @@ export default {
   display: flex;
   align-items: center;
   margin-top: 5px;
+}
+
+.describe_comment {
+  flex: 1;
+  font-size: 12px;
+  color: #666;
+  text-align: end;
 }
 
 .comment_total {
@@ -252,21 +457,21 @@ export default {
   color: orange;
 }
 
-.recommend_vegetables{
+.recommend_vegetables {
   margin-top: 20px;
 }
 
-.recommend_vegetables_tag{
+.recommend_vegetables_tag {
   margin-top: 15px;
 }
 
-.van-cell__title{
-  span{
+.van-cell__title {
+  span {
     font-size: 18px;
   }
 }
 
-.van-tag{
+.van-tag {
   font-size: 14px;
   margin-right: 14px;
   padding: 6px 12px;
