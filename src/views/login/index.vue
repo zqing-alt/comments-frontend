@@ -8,18 +8,21 @@
       <!-- 手机号 -->
       <van-field
         class="phoneNum"
-        v-model="value"
+        v-model="phoneNum"
         placeholder="请输入手机号"
       >
       <van-icon slot="left-icon" name="arrow-down" />
       <label slot="label">中国+86</label>
       </van-field>
       <!-- 代码 -->
-      <van-field class="phoneNum">
+      <van-field class="phoneNum" v-show="phoneNum.trim().length>=11">
 
       </van-field>
       <p class="login-question">登录遇到问题</p>
-      <van-button type="primary" size="large" round color="#ffce00">获取短信验证码</van-button>
+      <div>
+        <van-button v-if="flag" type="primary" size="large" round color="#ffce00" @click="getCode">获取短信验证码</van-button>
+        <van-button v-else type="primary" size="large" round color="#ffce00">登录</van-button>
+      </div>
       <p class="register-tip">未注册的手机号验证后自动注册</p>
     </van-form>
     <!-- fom表单 -->
@@ -42,12 +45,29 @@
 </template>
 
 <script>
+// 导入接口
+import { getLoginCode } from '@/api/user'
+
 export default {
   data () {
-    return {}
+    return {
+      flag: true,
+      phoneNum: '18895661245',
+      codeValue: '000000'
+    }
   },
   created () {},
-  methods: {}
+  methods: {
+    getCode () {
+      console.log(111)
+      try {
+        const data = getLoginCode()
+        console.log(data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  }
 }
 </script>
 
