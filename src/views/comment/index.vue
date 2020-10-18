@@ -328,7 +328,7 @@ export default {
   methods: {
     // 返回上一页
     onClickLeft () {
-      this.$router.push({ path: '/details' })
+      this.$router.push('/details?id=' + this.storeId)
     },
 
     // 提交表单到后台
