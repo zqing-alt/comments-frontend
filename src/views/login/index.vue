@@ -105,6 +105,7 @@ export default {
       }
       // 跳转到home页面
       this.$router.push('/?uid=' + uid)
+      sessionStorage.setItem('USER_ID', uid)
     },
     // 跳转到home页面
     goHome () {
