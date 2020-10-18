@@ -50,8 +50,14 @@
     <div class="third-party">
       <van-divider>第三方账号登录</van-divider>
       <div class="tengxun">
-        <div><div><img src="@/styles/image/weixin-2.png" /></div><span>微信</span></div>
-        <div><div><img src="@/styles/image/qq.png" /></div><span>QQ</span></div>
+        <div>
+          <div><img src="@/styles/image/weixin-2.png" /></div>
+          <span>微信</span>
+        </div>
+        <div>
+          <div><img src="@/styles/image/qq.png" /></div>
+          <span>QQ</span>
+        </div>
       </div>
     </div>
     <!-- 第三方 -->
