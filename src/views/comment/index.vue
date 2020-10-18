@@ -221,7 +221,9 @@ export default {
       // 图片
       picture: '',
       // 显示图片预览
-      isShowUpdateAvatar: false
+      isShowUpdateAvatar: false,
+      // 店铺id
+      storeId: null
     }
   },
   computed: {
@@ -297,7 +299,9 @@ export default {
     }
   },
   watch: {},
-  created () {},
+  created () {
+    this.storeId = this.$router.query.id
+  },
   mounted () {},
   methods: {
     // 返回上一页
@@ -307,13 +311,13 @@ export default {
 
     // 提交表单到后台
     async onClickRight () {
-      const { data } = await postComment(1, {
-        total: this.total,
-        taste: this.taste,
-        environment: this.environment,
-        service: this.service,
-        food: this.food,
-        describe: this.describes,
+      const { data } = await postComment(this.storeId, {
+        total: this.total - 0,
+        taste: this.taste - 0,
+        environment: this.environment - 0,
+        service: this.service - 0,
+        food: this.food - 0,
+        describes: this.describes,
         topic: this.topic,
         title: this.title
       })
