@@ -16,23 +16,17 @@
       <van-tag round>香辣</van-tag>
     </div>
 
-    <!-- <van-list
-      v-model="loading"
-      :finished="finished"
-      finished-text="没有更多了"
-      @load="onLoad"
-      :error.sync="error"
-      error-text="请求失败，点击重新加载"
-    > -->
+    <div v-if="resultsList">
       <!-- 店铺 -->
       <van-card
-        v-for="(item, index) in resultsList" :key="index"
-        :thumb="baseUrl+item.picture"
+        v-for="(item, index) in resultsList"
+        :key="index"
+        :thumb="baseUrl + item.picture"
         @click="toDetail(item.id)"
       >
         <template #title>
           <div>
-            <span class="title">{{item.name}} </span>
+            <span class="title">{{ item.name }} </span>
             <span class="mai">卖</span>
           </div>
         </template>
@@ -47,7 +41,7 @@
               disabled
             />
             <span class="count"> 128条</span>
-            <span> ￥ {{item.price}}/人</span>
+            <span> ￥ {{ item.price }}/人</span>
           </div>
         </template>
 
@@ -77,12 +71,15 @@
           </div>
         </template>
       </van-card>
-    <!-- </van-list> -->
+    </div>
+
+    <div v-else class="not-found">
+      没有搜索到相关店铺哦
+    </div>
   </div>
 </template>
 
 <script>
-
 export default {
   name: 'SearchResult',
   components: {},
@@ -125,12 +122,11 @@ export default {
   },
   computed: {},
   watch: {},
-  created () {
-  },
+  created () {},
   mounted () {},
   methods: {
     toDetail (id) {
-      this.$router.push(`/detail?id=${id}`)
+      this.$router.push(`/details?id=${id}`)
     }
   }
 }
@@ -227,5 +223,11 @@ export default {
 .mai,
 .tuan {
   background-color: #f5c620;
+}
+
+.not-found {
+  text-align: center;
+  font-size: 15px;
+  color:#333;
 }
 </style>
