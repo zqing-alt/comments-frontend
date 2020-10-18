@@ -125,7 +125,9 @@ export default {
     },
 
     onCancel () {
-      this.$router.back()
+      this.searchKeywords = ''
+      this.isSearchResultShow = false
+      this.$router.push('/')
     },
 
     onFocus () {
