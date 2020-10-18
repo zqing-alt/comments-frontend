@@ -1,10 +1,10 @@
 import request from '@/utils/request'
 
 // 发表评论
-const postComment = (storeId, comments) => {
+const postComment = (userId, storeId, comments) => {
   return request({
     method: 'post',
-    url: `/comments/comment/${storeId}`,
+    url: `/comments/comment/${userId}/${storeId}`,
     data: {
       comments
     }

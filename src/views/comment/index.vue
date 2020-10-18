@@ -227,7 +227,8 @@ export default {
       picture: '',
       // 店铺id
       storeId: null,
-      averageScore: 0
+      averageScore: 0,
+      userID: sessionStorage.getItem('USER_ID')
     }
   },
   // todo星星联动
@@ -332,18 +333,31 @@ export default {
 
     // 提交表单到后台
     async onClickRight () {
-      const { data } = await postComment(1, {
-        total: this.total - 0,
-        taste: this.taste - 0,
-        environment: this.environment - 0,
-        service: this.service - 0,
-        food: this.food - 0,
-        describes: this.describes,
-        topic: this.topic,
-        title: this.title
+      this.$toast.loading({
+        message: '提交中...',
+        forbidClick: true,
+        loadingType: 'spinner',
+        duration: 0
       })
-
-      console.log(data)
+      try {
+        const { data } = await postComment(this.userID, this.storeId, {
+          total: this.total - 0,
+          taste: this.taste - 0,
+          environment: this.environment - 0,
+          service: this.service - 0,
+          food: this.food - 0,
+          describes: this.describes,
+          topic: this.topic,
+          title: this.title
+        })
+        console.log(data)
+        this.$toast('发表成功')
+        // 跳转页面
+        this.$router.push('/details?id=' + this.storeId)
+      } catch (err) {
+        console.log(err)
+        this.$toast('更新失败')
+      }
     },
 
     // todo 上传图片 需要后台提供接口
@@ -373,7 +387,6 @@ export default {
         this.$toast('更新失败')
       }
     },
-
     // 添加标题
     addTitle () {
       this.describes += '#外卖小哥辛苦了#'
