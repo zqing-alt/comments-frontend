@@ -2,12 +2,13 @@
   <div class="home-container">
     <!-- 搜索按钮 -->
     <div class="search">
-      <van-search placeholder="请输入商户名和菜名" shape="round" show-action>
+      <van-search placeholder="请输入商户名和菜名" shape="round" show-action @click="goSearch">
         <img src="../../styles/image/矢量智能对象@2x.png" slot="action" />
       </van-search>
     </div>
     <!-- 搜索按钮 -->
 
+    <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
     <!-- 分类 -->
     <div class="category">
       <ul>
@@ -49,6 +50,8 @@
         <van-tab title="推荐" class="recommend">
           <img src="@/styles/image/日式.png" />
           <img src="@/styles/image/汉堡.png" />
+          <img src="@/styles/image/汉堡.png" />
+          <img src="@/styles/image/汉堡.png" />
         </van-tab>
         <van-tab title="附近"></van-tab>
         <van-tab title="达人"></van-tab>
@@ -57,18 +60,34 @@
       </van-tabs>
     </div>
     <!-- 标签页 -->
+    </van-pull-refresh>
   </div>
 </template>
 
 <script>
+// 导入接口
+import { getHomedata } from '@/api/home'
 export default {
   data () {
     return {
       active: 0,
-      uid: this.$route.query
+      uid: this.$route.query,
+      isLoading: false
     }
   },
-  methods: {}
+  methods: {
+    goSearch () {
+      // 跳转
+      this.$router.push('/search')
+    },
+    // 下拉刷新
+    async onRefresh () {
+      console.log(111)
+      // const data = await getHomedata()
+      console.log(getHomedata)
+      this.isLoading = false
+    }
+  }
 }
 </script>
 
@@ -139,12 +158,14 @@ export default {
   .tab {
     .van-tabs__content {
       .recommend {
-        display: flex;
-        justify-content: center;
+        // // width: 350px;
+        // display: flex;
+        // justify-content: center;
         > img {
           width: 170px;
           height: 200px;
-          margin: 10px 5px;
+          margin: 10px 8px;
+          // text-align: center;
         }
       }
     }
