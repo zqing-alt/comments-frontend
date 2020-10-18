@@ -32,7 +32,7 @@
         <span>关注</span>
 
       </van-tabbar-item>
-      <van-tabbar-item to="/my">
+      <van-tabbar-item to="/login">
         <!-- <i slot="icon" class="toutiao toutiao-wode"></i> -->
         <img src="@/styles/image/wode.png">
         <span>我的</span>
