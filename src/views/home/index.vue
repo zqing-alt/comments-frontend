@@ -94,9 +94,10 @@ export default {
 <style lang="less" scoped>
 .home-container {
   padding: 60px 0;
-  // s搜索模块
+  // 搜索模块
   .search {
     position: fixed;
+    z-index: 999;
     top: 0;
     left: 0;
     right: 0;
