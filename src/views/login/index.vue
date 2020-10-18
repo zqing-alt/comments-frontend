@@ -50,8 +50,8 @@
     <div class="third-party">
       <van-divider>第三方账号登录</van-divider>
       <div class="tengxun">
-        <div><img src="@/styles/image/weixin-2.png" /></div>
-        <div><img src="@/styles/image/qq.png" /></div>
+        <div><div><img src="@/styles/image/weixin-2.png" /></div><span>微信</span></div>
+        <div><div><img src="@/styles/image/qq.png" /></div><span>QQ</span></div>
       </div>
     </div>
     <!-- 第三方 -->
@@ -105,6 +105,7 @@ export default {
       }
       // 跳转到home页面
       this.$router.push('/?uid=' + uid)
+      sessionStorage.setItem('USER_ID', uid)
     },
     // 跳转到home页面
     goHome () {

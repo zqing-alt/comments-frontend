@@ -34,4 +34,12 @@ const router = new VueRouter({
   routes
 })
 
+// 路由拦截器
+router.beforeEach((to, from, next) => {
+  if (to.path === '/login') return next()
+  const USER_ID = sessionStorage.getItem('USER_ID')
+  if (!USER_ID) return next('/login')
+  next()
+})
+
 export default router

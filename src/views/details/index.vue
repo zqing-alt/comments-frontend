@@ -16,7 +16,7 @@
     <div class="detail_info">
       <div class="info_header">
         <div class="info_header_title">川西坝子(羊犀2.0直营店)</div>
-        <img src="../../styles/image/矢量智能对象@2x.png" />
+        <img src="../../styles/image/矢量智能对象@2x.png" @click="goToComment"/>
       </div>
       <div class="info_comment">
         <span>
@@ -144,7 +144,11 @@ export default {
   watch: {},
   created () {},
   mounted () {},
-  methods: {}
+  methods: {
+    goToComment () {
+      this.$router.push({ path: '/comment' })
+    }
+  }
 }
 </script>
 

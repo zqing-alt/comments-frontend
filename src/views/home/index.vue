@@ -48,7 +48,7 @@
     <div class="tab">
       <van-tabs v-model="active" color="#ffcd00">
         <van-tab title="推荐" class="recommend">
-          <img src="@/styles/image/日式.png" />
+          <img src="@/styles/image/日式.png" @click="$router.push('/details?id='+1)" />
           <img src="@/styles/image/汉堡.png" />
           <img src="@/styles/image/汉堡.png" />
           <img src="@/styles/image/汉堡.png" />
