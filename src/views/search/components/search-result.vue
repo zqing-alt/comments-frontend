@@ -1,22 +1,20 @@
 <template>
   <div class="search-result-container">
-    <!-- 下拉菜单 -->
-    <van-dropdown-menu>
-      <van-dropdown-item v-model="value1" :options="option1" />
-      <van-dropdown-item v-model="value2" :options="option2" />
-      <van-dropdown-item v-model="value2" :options="option3" />
-      <van-dropdown-item v-model="value2" :options="option4" />
-    </van-dropdown-menu>
-
-    <!-- 分类标签 -->
-    <div class="tags-cate">
-      <van-tag round>标签</van-tag>
-      <van-tag round>贪食之暴雨</van-tag>
-      <van-tag round>香辣小白兔</van-tag>
-      <van-tag round>香辣</van-tag>
-    </div>
-
-    <div v-if="resultsList">
+    <div v-if="resultsList.length">
+      <!-- 下拉菜单 -->
+      <van-dropdown-menu>
+        <van-dropdown-item v-model="value1" :options="option1" />
+        <van-dropdown-item v-model="value2" :options="option2" />
+        <van-dropdown-item v-model="value2" :options="option3" />
+        <van-dropdown-item v-model="value2" :options="option4" />
+      </van-dropdown-menu>
+      <!-- 分类标签 -->
+      <div class="tags-cate">
+        <van-tag round>麻辣</van-tag>
+        <van-tag round>美蛙</van-tag>
+        <van-tag round>香辣小白兔</van-tag>
+        <van-tag round>香辣</van-tag>
+      </div>
       <!-- 店铺 -->
       <van-card
         v-for="(item, index) in resultsList"
@@ -47,8 +45,10 @@
 
         <template #tags>
           <div class="tags-info">
-            <span>九里堤火锅 </span>
-            <span> 四川火锅</span>
+            <div>
+              <span>{{ item.address }}  </span>
+              <span>  {{ item.category }}</span>
+            </div>
             <span>5.8km</span>
           </div>
           <div class="tags-rate">
@@ -73,9 +73,7 @@
       </van-card>
     </div>
 
-    <div v-else class="not-found">
-      没有搜索到相关店铺哦
-    </div>
+    <div v-else class="not-found">没有搜索到相关店铺哦</div>
   </div>
 </template>
 
@@ -226,8 +224,9 @@ export default {
 }
 
 .not-found {
+  padding-top: 8px;
   text-align: center;
   font-size: 15px;
-  color:#333;
+  color: #333;
 }
 </style>

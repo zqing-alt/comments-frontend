@@ -1,10 +1,10 @@
 import request from '@/utils/request'
 
-// 用户验证码
-const getHomedata = telephone => {
+// 获取数据
+const getHomedata = () => {
   return request({
     method: 'get',
-    url: '/validateCode/send4Login' + telephone
+    url: '/store/all'
   })
 }
 

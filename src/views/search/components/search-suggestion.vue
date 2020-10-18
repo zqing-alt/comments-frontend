@@ -33,7 +33,7 @@
           <div class="bottom-left">
             <span class="cates">四川火锅</span>
             <span> | </span>
-            <span>中海国际大酒店</span>
+            <span>{{ item.address }}</span>
           </div>
           <span>900m</span>
         </div>
@@ -90,7 +90,7 @@ export default {
     // 处理搜索建议结果高亮
     handleSuggestion (data) {
       const reg = new RegExp(this.searchKeywords, 'g')
-      const str = `<span style="color:yellow">${this.searchKeywords}</span>`
+      const str = `<span style="color:#fecb2f">${this.searchKeywords}</span>`
       return data.replace(reg, str)
     },
     toDetail (id) {

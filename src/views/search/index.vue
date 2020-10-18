@@ -4,7 +4,7 @@
     <!-- 输入框 -->
     <form action="/" slot="title" class="search-form">
       <van-search
-        v-model="searchKeywords"
+        v-model.trim="searchKeywords"
         show-action
         placeholder="输入商户名或菜名"
         clearable

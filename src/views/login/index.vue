@@ -20,7 +20,10 @@
         v-model="codeValue"
         v-show="telephone.trim().length >= 11"
       >
+        <van-icon slot="left-icon" name="envelop-o" />
+        <label slot="label">手机验证码</label>
       </van-field>
+
       <p class="login-question">登录遇到问题</p>
       <div>
         <van-button
@@ -52,11 +55,11 @@
       <div class="tengxun">
         <div>
           <div><img src="@/styles/image/weixin-2.png" /></div>
-          <span>微信</span>
+          <!-- <span>微信</span> -->
         </div>
         <div>
           <div><img src="@/styles/image/qq.png" /></div>
-          <span>QQ</span>
+          <!-- <span>QQ</span> -->
         </div>
       </div>
     </div>
@@ -110,7 +113,7 @@ export default {
         console.log(error)
       }
       // 跳转到home页面
-      this.$router.push('/?uid=' + uid)
+      this.$router.push('/')
       sessionStorage.setItem('USER_ID', uid)
     },
     // 跳转到home页面
@@ -151,17 +154,23 @@ export default {
       display: flex;
       justify-content: space-evenly;
       > div {
-        margin-top: 50px;
-        width: 80px;
-        height: 80px;
-        border: 1px solid #ccc;
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        > img {
-          width: 40px;
-          height: 40px;
+        font-size: 20px;
+        > div {
+          margin-top: 50px;
+          width: 80px;
+          height: 80px;
+          border: 1px solid #ccc;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          > img {
+            width: 40px;
+            height: 40px;
+          }
+        }
+        >span{
+          text-align: right;
         }
       }
     }
