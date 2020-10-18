@@ -79,7 +79,7 @@ export default {
       searchKeywords: '',
       active: 0,
       isSearchResultShow: false,
-      historyList: [], // 历史关键字
+      historyList: [],
       storeList: [],
       resultsList: []
     }

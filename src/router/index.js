@@ -24,6 +24,7 @@ const routes = [
     component: () => import('@/views/comment'),
     beforeEnter: (to, from, next) => {
       const USER_ID = sessionStorage.getItem('USER_ID')
+      console.log(USER_ID)
       if (!USER_ID) return next('/login')
     }
   },

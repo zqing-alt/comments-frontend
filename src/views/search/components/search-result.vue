@@ -45,9 +45,9 @@
 
         <template #tags>
           <div class="tags-info">
-            <div>
-              <span>{{ item.address }}  </span>
-              <span>  {{ item.category }}</span>
+            <div class="address-cate">
+              <span class="address">{{ item.address }} </span>
+              <span> {{ item.category }}</span>
             </div>
             <span>5.8km</span>
           </div>
@@ -228,5 +228,14 @@ export default {
   text-align: center;
   font-size: 15px;
   color: #333;
+}
+
+.address {
+  display: inline-block;
+  overflow: hidden;
+  width: 170px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  vertical-align: top;
 }
 </style>
