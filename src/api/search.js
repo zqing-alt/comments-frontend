@@ -11,7 +11,7 @@ const getSearchSuggestion = (params) => {
 // 搜索结果
 const getSearchResult = (params) => {
   return request({
-    url: `/store/${params}`,
+    url: `/store/all/${params}`,
     method: 'GET'
   })
 }

@@ -1,18 +1,19 @@
 <template>
   <div class="search-suggestion-container">
-    <van-cell icon="clock-o" title="火锅" value="约23849个结果"> </van-cell>
+    <!-- <van-cell icon="clock-o" title="火锅" value="约23849个结果"> </van-cell>
     <van-cell title="成都火锅排行榜" is-link class="ranking">
       <template #icon>
         <i class="iconfont icon-jingxuan"></i>
       </template>
-    </van-cell>
+    </van-cell> -->
 
     <van-cell
-     icon="shop-o"
+      icon="shop-o"
       class="shop"
       v-for="item in suggestionList"
       :key="item.id"
-      >
+      @click="toDetail(item.id)"
+    >
       <span slot="title" v-html="handleSuggestion(item.name)"></span>
       <template #label>
         <div class="top">
@@ -91,6 +92,9 @@ export default {
       const reg = new RegExp(this.searchKeywords, 'g')
       const str = `<span style="color:yellow">${this.searchKeywords}</span>`
       return data.replace(reg, str)
+    },
+    toDetail (id) {
+      this.$router.push(`/details?id=${id}`)
     }
   }
 }

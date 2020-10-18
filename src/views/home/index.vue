@@ -48,7 +48,7 @@
     <div class="tab">
       <van-tabs v-model="active" color="#ffcd00">
         <van-tab title="推荐" class="recommend">
-          <img src="@/styles/image/日式.png" />
+          <img src="@/styles/image/日式.png" @click="$router.push('/details?id='+1)" />
           <img src="@/styles/image/汉堡.png" />
           <img src="@/styles/image/汉堡.png" />
           <img src="@/styles/image/汉堡.png" />
@@ -94,9 +94,10 @@ export default {
 <style lang="less" scoped>
 .home-container {
   padding: 60px 0;
-  // s搜索模块
+  // 搜索模块
   .search {
     position: fixed;
+    z-index: 999;
     top: 0;
     left: 0;
     right: 0;
