@@ -23,8 +23,10 @@
           全部
         </template>
         <!-- 搜索结果 -->
-        <search-result ></search-result>
-        <!-- <search-result></search-result> -->
+        <search-result
+         :searchKeywords="searchKeywords"
+         :resultsList="resultsList"
+         ></search-result>
       </van-tab>
 
       <van-tab title="标签 2">
@@ -41,12 +43,19 @@
     </van-tabs>
 
     <!-- 搜索建议 -->
-    <search-suggestion v-else-if="searchKeywords"></search-suggestion>
-    <!-- <search-suggestion></search-suggestion> -->
+    <search-suggestion
+      v-else-if="searchKeywords"
+      :searchKeywords="searchKeywords"
+    ></search-suggestion>
 
     <!-- 搜索历史及发现 -->
-    <search-history v-else></search-history>
-    <!-- <search-history></search-history> -->
+    <search-history
+      v-else
+      :historyList="historyList"
+      :storeList="storeList"
+      @search="onSearch"
+      @discover="getStore"
+    ></search-history>
   </div>
 </template>
 
@@ -54,6 +63,8 @@
 import SearchHistory from './components/search-history'
 import SearchSuggestion from './components/search-suggestion'
 import SearchResult from './components/search-result'
+
+import { discoverStore, getSearchResult } from '@/api/search'
 
 export default {
   name: 'SearchIndex',
@@ -65,23 +76,78 @@ export default {
   props: {},
   data () {
     return {
-      searchKeywords: '火锅',
+      searchKeywords: '',
       active: 0,
-      isSearchResultShow: false
+      isSearchResultShow: false,
+      historyList: [], // 历史关键字
+      storeList: [],
+      resultsList: []
     }
   },
   computed: {},
-  watch: {},
-  created () {},
+  watch: {
+    historyList: {
+      handler (val) {
+        localStorage.setItem('HISTORY', JSON.stringify(val))
+      }
+    }
+  },
+  created () {
+    this.getHistoryList()
+    this.getStore()
+  },
   mounted () {},
   methods: {
-    onSearch () {},
+    getHistoryList () {
+      const list = localStorage.getItem('HISTORY')
+      if (list) {
+        try {
+          this.historyList = JSON.parse(list)
+        } catch (err) {
+          this.historyList = []
+        }
+      }
+    },
+
+    async getStore () {
+      try {
+        const { data } = await discoverStore()
+        this.storeList = data.data
+      } catch (err) {
+
+      }
+    },
+
+    onSearch (val) {
+      console.log(val)
+      this.searchKeywords = val
+      this.addhistoryList(this.searchKeywords)
+    },
 
     onCancel () {
       this.$router.back()
     },
 
-    onFocus () {}
+    onFocus () {
+      this.isSearchResultShow = false
+    },
+
+    async addhistoryList (val) {
+      this.searchKeywords = val
+
+      try {
+        const { data } = await getSearchResult(this.searchKeywords)
+        this.resultsList = data.data
+      } catch (err) {
+        console.log(err)
+      }
+
+      this.historyList = [
+        ...new Set([this.searchKeywords, ...this.historyList])
+      ].slice(0, 10)
+
+      this.isSearchResultShow = true
+    }
   }
 }
 </script>

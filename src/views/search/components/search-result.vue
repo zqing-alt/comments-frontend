@@ -16,66 +16,84 @@
       <van-tag round>香辣</van-tag>
     </div>
 
-    <!-- 店铺 -->
-    <van-card
-      desc="描述信息"
-      title="毛肚火锅"
-      thumb="https://img.yzcdn.cn/vant/ipad.jpeg"
-    >
-      <template #title>
-        <div>
-          <span class="title">毛肚火锅 </span>
-          <span class="mai">卖</span>
-        </div>
-      </template>
+    <!-- <van-list
+      v-model="loading"
+      :finished="finished"
+      finished-text="没有更多了"
+      @load="onLoad"
+      :error.sync="error"
+      error-text="请求失败，点击重新加载"
+    > -->
+      <!-- 店铺 -->
+      <van-card
+        v-for="(item, index) in resultsList" :key="index"
+        thumb="https://img.yzcdn.cn/vant/ipad.jpeg"
+      >
+        <template #title>
+          <div>
+            <span class="title">{{item.name}} </span>
+            <span class="mai">卖</span>
+          </div>
+        </template>
 
-      <template #desc>
-        <div class="desc">
-          <van-rate
-            v-model="rateValue"
-            :size="13"
-            void-icon="star"
-            void-color="#eee"
-          />
-          <span class="count"> 128条</span>
-          <span> ￥ 58/人</span>
-        </div>
-      </template>
+        <template #desc>
+          <div class="desc">
+            <van-rate
+              v-model="rateValue"
+              :size="13"
+              void-icon="star"
+              void-color="#eee"
+            />
+            <span class="count"> 128条</span>
+            <span> ￥ 58/人</span>
+          </div>
+        </template>
 
-      <template #tags>
-        <div class="tags-info">
-          <span>九里堤火锅 </span>
-          <span> 四川火锅</span>
-          <span>5.8km</span>
-        </div>
-        <div class="tags-rate">
-          <van-tag>95%认为口味很赞</van-tag>
-          <van-tag>热门排行榜第10名</van-tag>
-        </div>
-      </template>
+        <template #tags>
+          <div class="tags-info">
+            <span>九里堤火锅 </span>
+            <span> 四川火锅</span>
+            <span>5.8km</span>
+          </div>
+          <div class="tags-rate">
+            <van-tag>95%认为口味很赞</van-tag>
+            <van-tag>热门排行榜第10名</van-tag>
+          </div>
+        </template>
 
-      <template #footer>
-        <div class="footer">
-          <p>您最近偷偷打探过这家哦</p>
-          <p>
-            <span class="juan">卷</span>
-            <span>  39.9元 价值50元的代金券1张</span>
-          </p>
-          <p>
-            <span class="tuan">团</span>
-            <span>  89元 特惠双人餐,148元 爆款四人餐</span>
-          </p>
-        </div>
-      </template>
-    </van-card>
+        <template #footer>
+          <div class="footer">
+            <p>您最近偷偷打探过这家哦</p>
+            <p>
+              <span class="juan">卷</span>
+              <span> 39.9元 价值50元的代金券1张</span>
+            </p>
+            <p>
+              <span class="tuan">团</span>
+              <span> 89元 特惠双人餐,148元 爆款四人餐</span>
+            </p>
+          </div>
+        </template>
+      </van-card>
+    <!-- </van-list> -->
   </div>
 </template>
 
 <script>
+import { getSearchResult } from '@/api/search'
 export default {
-  name: '',
+  name: 'SearchResult',
   components: {},
-  props: {},
+  props: {
+    searchKeywords: {
+      type: String,
+      required: true
+    },
+    resultsList: {
+      type: Array,
+      default: () => []
+    }
+  },
   data () {
     return {
       value1: 0,
@@ -101,13 +119,41 @@ export default {
         { text: '销量排序', value: 'c' }
       ],
       rateValue: 5
+      // loading: false,
+      // finished: false,
+      // error: ''
     }
   },
   computed: {},
   watch: {},
-  created () {},
+  created () {
+  },
   mounted () {},
-  methods: {}
+  methods: {
+    async onLoad () {
+      console.log(1)
+      try {
+        // 1 获取搜索结果
+        const { data } = await getSearchResult(this.searchKeywords)
+        console.log(data)
+        // this.list.push(...data.data.results)
+        // console.log(data)
+        // 2 加载状态结束
+        this.loading = false
+
+        // // 3 数据加载结束
+        // if (data.data.results) {
+        //   this.queryInfo.page++
+        // } else {
+        //   this.finished = true
+        // }
+      } catch (err) {
+        this.error = true
+        // 2 加载状态结束
+        this.loading = false
+      }
+    }
+  }
 }
 </script>
 
@@ -119,7 +165,7 @@ export default {
 .tags-cate {
   margin: 20px 10px 0;
   padding-bottom: 10px;
-  border-bottom:1px solid #eee;
+  border-bottom: 1px solid #eee;
   .van-tag {
     padding: 8px 10px;
     margin-top: 5px;
@@ -163,7 +209,7 @@ export default {
 }
 
 .tags-rate {
-  margin-top:9px;
+  margin-top: 9px;
   .van-tag {
     font-size: 10px;
     color: #ccc;

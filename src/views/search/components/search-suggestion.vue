@@ -6,15 +6,23 @@
         <i class="iconfont icon-jingxuan"></i>
       </template>
     </van-cell>
-    <van-cell icon="shop-o" title="川西坝子火锅" class="shop">
+
+    <van-cell
+     icon="shop-o"
+      class="shop"
+      v-for="item in suggestionList"
+      :key="item.id"
+      >
+      <span slot="title" v-html="handleSuggestion(item.name)"></span>
       <template #label>
         <div class="top">
           <div class="top-left">
             <van-rate
-              v-model="rateValue"
+              v-model="item.rate"
               :size="13"
               void-icon="star"
               void-color="#eee"
+              disabled
             />
             <div class="count">128条</div>
           </div>
@@ -34,20 +42,57 @@
 </template>
 
 <script>
+import { debounce } from 'lodash'
+import { getSearchSuggestion } from '@/api/search'
 export default {
   name: 'SearchSuggestion',
   components: {},
-  props: {},
+  props: {
+    searchKeywords: {
+      type: String,
+      required: true
+    }
+  },
   data () {
     return {
-      rateValue: 5
+      rateValue: 5,
+      suggestionList: []
     }
   },
   computed: {},
-  watch: {},
+  watch: {
+    searchKeywords: {
+      // searchKeywords当这个发生变化,就会立即触发处理函数
+      // 利用防抖优化
+      handler: debounce(function (value) {
+        this.loadSearchSuggestion(value)
+      }, 1000),
+      immediate: true // 该回调将会在侦听开始之后被立即调用
+    }
+  },
   created () {},
   mounted () {},
-  methods: {}
+  methods: {
+    // 获取搜索建议的函数
+    async loadSearchSuggestion (value) {
+      console.log(value)
+      try {
+        // 1获取结果
+        const { data } = await getSearchSuggestion(value)
+        // 2处理结果
+        this.suggestionList = data.data
+      } catch (err) {
+        console.log(err)
+      }
+    },
+
+    // 处理搜索建议结果高亮
+    handleSuggestion (data) {
+      const reg = new RegExp(this.searchKeywords, 'g')
+      const str = `<span style="color:yellow">${this.searchKeywords}</span>`
+      return data.replace(reg, str)
+    }
+  }
 }
 </script>
 

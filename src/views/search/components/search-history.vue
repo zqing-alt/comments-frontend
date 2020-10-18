@@ -3,43 +3,49 @@
       <div class="history">
         <div class="title">最近搜索</div>
         <div class="tags">
-          <van-tag round>标签</van-tag>
-          <van-tag round>贪食之暴雨</van-tag>
-          <van-tag round>香辣小白兔</van-tag>
-          <van-tag round>香辣</van-tag>
-          <van-tag round>香辣小白兔</van-tag>
-          <van-tag round>香辣小白兔</van-tag>
-          <van-tag round>香辣小白兔</van-tag>
-          <van-tag round>标签</van-tag>
+          <van-tag
+          round
+          v-for="(item,index) in historyList"
+          :key="index"
+          @click="search(item)"
+          >{{item}}</van-tag>
         </div>
       </div>
       <div class="discover">
         <div class="title discover-title">
           <span>搜索发现</span>
-          <span class="change">换一组</span>
+          <span class="change" @click="discover">换一组</span>
         </div>
         <div class="tags">
-          <van-tag round>标签</van-tag>
-          <van-tag round>贪食之暴雨</van-tag>
-          <van-tag round>香辣小白兔</van-tag>
-          <van-tag round>香辣</van-tag>
-          <van-tag round>香辣小白兔</van-tag>
-          <van-tag round>香辣小白兔</van-tag>
-          <van-tag round>香辣小白兔</van-tag>
-          <van-tag round>标签</van-tag>
+          <van-tag
+          round
+          v-for="(item) in storeList"
+          :key="item.id"
+          @click="search(item.name)"
+          >{{item.name}}</van-tag>
         </div>
       </div>
     </div>
 </template>
 
 <script>
+
 export default {
   name: 'SearchHistory',
   components: {},
-  props: {},
+  props: {
+    historyList: {
+      type: Array,
+      default: () => []
+    },
+    storeList: {
+      type: Array,
+      default: () => []
+    }
+  },
   data () {
     return {
-
+      discoverList: []
     }
   },
   computed: {
@@ -55,7 +61,13 @@ export default {
 
   },
   methods: {
+    search (keywords) {
+      this.$emit('search', keywords)
+    },
 
+    discover () {
+      this.$emit('discover')
+    }
   }
 }
 </script>
@@ -75,7 +87,7 @@ export default {
       }
 
       .van-tag {
-        padding: 10px;
+        padding: 6px 10px;
         margin-top: 5px;
         font-size: 13px;
         color: #333;

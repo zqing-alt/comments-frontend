@@ -3,27 +3,25 @@ import request from '@/utils/request'
 // 搜索建议
 const getSearchSuggestion = (params) => {
   return request({
-    url: '/app/v1_0/suggestion',
-    method: 'GET',
-    params
+    url: `/store/keys/${params}`,
+    method: 'GET'
   })
 }
 
 // 搜索结果
 const getSearchResult = (params) => {
   return request({
-    url: '/app/v1_0/search',
-    method: 'GET',
-    params
+    url: `/store/${params}`,
+    method: 'GET'
   })
 }
 
-// 搜索历史
-const getUserSearchHistory = () => {
+// 搜索发现
+const discoverStore = () => {
   return request({
-    url: '/app/v1_0/search/histories',
+    url: '/store/discovery',
     method: 'GET'
   })
 }
 // 向外导出
-export { getSearchSuggestion, getSearchResult, getUserSearchHistory }
+export { getSearchSuggestion, getSearchResult, discoverStore }
