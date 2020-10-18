@@ -48,10 +48,7 @@
     <div class="tab">
       <van-tabs v-model="active" color="#ffcd00">
         <van-tab title="推荐" class="recommend">
-          <img src="@/styles/image/日式.png" @click="$router.push('/details?id='+1)" />
-          <img src="@/styles/image/汉堡.png" />
-          <img src="@/styles/image/汉堡.png" />
-          <img src="@/styles/image/汉堡.png" />
+          <img :src="`http://192.168.32.45:80${item.picture}`" v-for="item in dataList" :key="item.id" @click="$router.push('/details?id='+item.id)" />
         </van-tab>
         <van-tab title="附近"></van-tab>
         <van-tab title="达人"></van-tab>
@@ -72,8 +69,12 @@ export default {
     return {
       active: 0,
       uid: this.$route.query,
-      isLoading: false
+      isLoading: false,
+      dataList: []
     }
+  },
+  created () {
+    this.getData()
   },
   methods: {
     goSearch () {
@@ -86,6 +87,10 @@ export default {
       // const data = await getHomedata()
       console.log(getHomedata)
       this.isLoading = false
+    },
+    async getData () {
+      const { data: { data } } = await getHomedata()
+      this.dataList = data
     }
   }
 }
