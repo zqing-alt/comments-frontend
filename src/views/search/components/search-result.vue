@@ -27,7 +27,8 @@
       <!-- 店铺 -->
       <van-card
         v-for="(item, index) in resultsList" :key="index"
-        thumb="https://img.yzcdn.cn/vant/ipad.jpeg"
+        :thumb="baseUrl+item.picture"
+        @click="toDetail(item.id)"
       >
         <template #title>
           <div>
@@ -39,13 +40,14 @@
         <template #desc>
           <div class="desc">
             <van-rate
-              v-model="rateValue"
+              v-model="item.rate"
               :size="13"
               void-icon="star"
               void-color="#eee"
+              disabled
             />
             <span class="count"> 128条</span>
-            <span> ￥ 58/人</span>
+            <span> ￥ {{item.price}}/人</span>
           </div>
         </template>
 
@@ -80,7 +82,7 @@
 </template>
 
 <script>
-import { getSearchResult } from '@/api/search'
+
 export default {
   name: 'SearchResult',
   components: {},
@@ -118,10 +120,7 @@ export default {
         { text: '好评排序', value: 'b' },
         { text: '销量排序', value: 'c' }
       ],
-      rateValue: 5
-      // loading: false,
-      // finished: false,
-      // error: ''
+      baseUrl: 'http://192.168.32.45:80'
     }
   },
   computed: {},
@@ -130,28 +129,8 @@ export default {
   },
   mounted () {},
   methods: {
-    async onLoad () {
-      console.log(1)
-      try {
-        // 1 获取搜索结果
-        const { data } = await getSearchResult(this.searchKeywords)
-        console.log(data)
-        // this.list.push(...data.data.results)
-        // console.log(data)
-        // 2 加载状态结束
-        this.loading = false
-
-        // // 3 数据加载结束
-        // if (data.data.results) {
-        //   this.queryInfo.page++
-        // } else {
-        //   this.finished = true
-        // }
-      } catch (err) {
-        this.error = true
-        // 2 加载状态结束
-        this.loading = false
-      }
+    toDetail (id) {
+      this.$router.push(`/detail?id=${id}`)
     }
   }
 }
@@ -163,8 +142,8 @@ export default {
 }
 
 .tags-cate {
-  margin: 20px 10px 0;
-  padding-bottom: 10px;
+  margin: 10px;
+  // padding-bottom: 10px;
   border-bottom: 1px solid #eee;
   .van-tag {
     padding: 8px 10px;
@@ -181,6 +160,7 @@ export default {
 
 .van-card {
   background-color: #fff;
+  border-bottom: 1px solid #eee;
   .van-card__title {
     font-size: 15px;
     color: #333;

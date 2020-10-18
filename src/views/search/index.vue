@@ -64,7 +64,7 @@ import SearchHistory from './components/search-history'
 import SearchSuggestion from './components/search-suggestion'
 import SearchResult from './components/search-result'
 
-import { discoverStore, getSearchResult } from '@/api/search'
+import { discoverStore, getSearchSuggestion } from '@/api/search'
 
 export default {
   name: 'SearchIndex',
@@ -136,7 +136,7 @@ export default {
       this.searchKeywords = val
 
       try {
-        const { data } = await getSearchResult(this.searchKeywords)
+        const { data } = await getSearchSuggestion(this.searchKeywords)
         this.resultsList = data.data
       } catch (err) {
         console.log(err)
@@ -178,7 +178,7 @@ export default {
   }
 
   /deep/ .van-tabs {
-    border-bottom: 1px solid #ccc;
+    // border-bottom: 1px solid #ccc;
 
     padding-top: 46px;
     .van-tabs__nav {
