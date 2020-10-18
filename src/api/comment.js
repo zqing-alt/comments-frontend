@@ -8,10 +8,29 @@ const postComment = (storeId, comments) => {
     data: {
       comments
     }
+  })
+}
 
+// 获取店铺详情
+const getDetail = id => {
+  return request({
+    method: 'get',
+    url: `/store/id/${id}`
+  })
+}
+
+// 上传图片
+const postUploadImg = data => {
+  return request({
+    method: 'post',
+    url: '/comments/pictureUpload',
+    headers: { 'Content-Type': 'multipart.form-data' },
+    data
   })
 }
 
 export {
-  postComment
+  postComment,
+  getDetail,
+  postUploadImg
 }
