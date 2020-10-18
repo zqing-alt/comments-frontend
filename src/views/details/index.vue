@@ -2,7 +2,7 @@
   <div class="detail_container">
     <!-- 头部区域 -->
     <div class="detail_header">
-      <div class="left">
+      <div class="left" @click="goBack">
         <i class="iconfont  icon-prev01"></i>
       </div>
       <div class="right">
@@ -167,6 +167,9 @@ export default {
       const { data: res } = await getDetail(id)
       if (res.code !== 200) return console.log('请求失败')
       this.detailInfo = res.data
+    },
+    goBack () {
+      this.$router.push('/search')
     }
   }
 }

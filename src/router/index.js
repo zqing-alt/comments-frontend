@@ -16,7 +16,10 @@ const routes = [
   {
     path: '/search',
     name: 'search',
-    component: () => import('@/views/search')
+    component: () => import('@/views/search'),
+    meta: {
+      keepAlive: true // 需要缓存
+    }
   },
   {
     path: '/comment',
@@ -24,7 +27,6 @@ const routes = [
     component: () => import('@/views/comment'),
     beforeEnter: (to, from, next) => {
       const USER_ID = sessionStorage.getItem('USER_ID')
-      console.log(USER_ID)
       if (!USER_ID) return next('/login')
       next()
     }
