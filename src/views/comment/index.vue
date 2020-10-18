@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="comment_container">
     <!-- 标题 -->
     <van-nav-bar
       title="川西坝子(羊犀2.0直营店)"
@@ -7,20 +7,121 @@
       @click-left="onClickLeft"
       @click-right="onClickRight"
     >
-    <template #left>
-    <van-icon name="cross" color="#000" size="0.6rem" />
-  </template>
-    <template #right>
-      <div class="right_content">
-        <img src="../../styles/image/wenzhang.png"  class="wenzhang_img">
-        <van-button round type="info" size="mini" color="#fecc2f"> 发表 </van-button>
-      </div>
-    </template>
+      <template #left>
+        <van-icon name="cross" color="#000" size="0.6rem" />
+      </template>
+      <template #right>
+        <div class="right_content">
+          <img src="../../styles/image/wenzhang.png" class="wenzhang_img" />
+          <van-button round type="info" size="mini" color="#fecc2f">
+            发表
+          </van-button>
+        </div>
+      </template>
     </van-nav-bar>
     <!-- 标题 -->
 
     <!-- 评分 -->
-    <span>总体</span>
+    <div class="comment">
+      <span class="comment_total">总体</span>
+      <van-rate
+        v-model="value"
+        color="#ffd21e"
+        void-icon="star"
+        void-color="#eee"
+        :size="30"
+      />
+    </div>
+
+    <!-- 评论区域 -->
+    <div>
+      <van-field
+        v-model="message"
+        rows="5"
+        autosize
+        type="textarea"
+        maxlength="50"
+        placeholder="可分享口味，环境，服务，食材等方面的体验 还可以用菜品标签评价菜品哦！"
+      />
+      <div class="comment_tips">写15个字，有机会被采纳为精选点评</div>
+      <van-button icon="plus" plain round size="small">
+        标题
+      </van-button>
+      <van-button icon="plus" plain round size="small">
+        话题
+      </van-button>
+    </div>
+    <!-- 上传图片视频区域 -->
+    <div class="upload_container">
+      <div class="upload_img">
+        <img src="../../styles/image/zhaopian.png" />
+        <span>上传图片</span>
+      </div>
+      <div class="upload_vedio">
+        <img src="../../styles/image/shipin.png" />
+        <span>上传视频</span>
+      </div>
+      <div class="upload_text">
+        100字+3张图或15秒视频有机会<span class="heght_text">赢100积分</span>
+      </div>
+    </div>
+
+    <van-cell-group class="recommend_vegetables">
+      <van-cell title="推荐菜" value="全部推荐菜" is-link> </van-cell>
+    </van-cell-group>
+    <div class="recommend_vegetables_tag">
+      <van-tag round color="#f3f3f3" text-color="#000" size="large"
+        >标签</van-tag
+      >
+      <van-tag round color="#f3f3f3" text-color="#000" size="large"
+        >标签</van-tag
+      >
+      <van-tag round color="#f3f3f3" text-color="#000" size="large"
+        >标签</van-tag
+      >
+      <van-tag round color="#f3f3f3" text-color="#000" size="large"
+        >标签</van-tag
+      >
+      <van-tag round color="#f3f3f3" text-color="#000" size="large"
+        >标签</van-tag
+      >
+    </div>
+
+    <div class="recommend_vegetables_tag">
+      <van-tag round color="#f3f3f3" text-color="#000" size="large"
+        >标签</van-tag
+      >
+      <van-tag round color="#f3f3f3" text-color="#000" size="large"
+        >标签</van-tag
+      >
+      <van-tag round color="#f3f3f3" text-color="#000" size="large"
+        >标签</van-tag
+      >
+      <van-tag round color="#f3f3f3" text-color="#000" size="large"
+        >标签</van-tag
+      >
+      <van-tag round color="#f3f3f3" text-color="#000" size="large"
+        >标签</van-tag
+      >
+    </div>
+
+    <div class="recommend_vegetables_tag">
+      <van-tag round color="#f3f3f3" text-color="#000" size="large"
+        >标签</van-tag
+      >
+      <van-tag round color="#f3f3f3" text-color="#000" size="large"
+        >标签</van-tag
+      >
+      <van-tag round color="#f3f3f3" text-color="#000" size="large"
+        >标签</van-tag
+      >
+      <van-tag round color="#f3f3f3" text-color="#000" size="large"
+        >标签</van-tag
+      >
+      <van-tag round color="#f3f3f3" text-color="#000" size="large"
+        >标签</van-tag
+      >
+    </div>
   </div>
 </template>
 
@@ -30,41 +131,144 @@ export default {
   components: {},
   props: {},
   data () {
-    return {}
+    return {
+      value: 0,
+      message: ''
+    }
   },
   computed: {},
   watch: {},
   created () {},
   mounted () {},
   methods: {
-    onClickLeft () {
-
-    },
-    onClickRight () {
-
-    }
+    onClickLeft () {},
+    onClickRight () {}
   }
 }
 </script>
 
 <style lang="less" scoped>
-  .wenzhang_img{
-    width: 0.4125rem;
-    height: 0.4875rem;
-    margin-right: 0.25rem;
-  }
+.comment_container {
+  padding: 20px;
+}
+.wenzhang_img {
+  width: 0.4125rem;
+  height: 0.4875rem;
+  margin-right: 0.25rem;
+}
 
-  .van-button--mini{
-    padding: 0 0.375rem;
-  }
+.van-button--mini {
+  padding: 0 0.375rem;
+}
 
-  .right_content{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+.van-cell {
+  padding: 0;
+  margin-top: 14px;
+}
 
-  /deep/.van-nav-bar__title{
-    margin:0 0.25rem 0 1.4rem
+.right_content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/deep/.van-nav-bar__title {
+  margin: 0 0.25rem 0 1.4rem;
+}
+
+/deep/.van-nav-bar__left {
+  padding: 0;
+}
+
+.comment {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.comment_total {
+  font-size: 18px;
+  margin: 0 15px 0 0;
+}
+
+.van-field__control {
+  font-size: 12px;
+  color: #cbcbcb;
+}
+
+.comment_tips {
+  text-align: end;
+  font-size: 12px;
+  color: #cbcbcb;
+}
+
+.van-button--small {
+  padding: 0 13px;
+  margin-right: 16px;
+  font-size: 12px;
+  color: #000;
+}
+
+.van-button__icon {
+  color: orange;
+}
+
+.upload_container {
+  margin: 30px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.upload_img,
+.upload_vedio {
+  border-radius: 4px;
+  margin-right: 10px;
+  width: 90px;
+  height: 76px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  border: 1px solid #cbcbcb;
+  box-sizing: border-box;
+  img {
+    width: 24px;
+    height: 20px;
+    margin-bottom: -30px;
   }
+  span {
+    font-size: 12px;
+    color: #cbcbcb;
+  }
+}
+
+.upload_text {
+  font-size: 12px;
+  color: #d8d8d8;
+}
+
+.heght_text {
+  color: orange;
+}
+
+.recommend_vegetables{
+  margin-top: 20px;
+}
+
+.recommend_vegetables_tag{
+  margin-top: 15px;
+}
+
+.van-cell__title{
+  span{
+    font-size: 18px;
+  }
+}
+
+.van-tag{
+  font-size: 14px;
+  margin-right: 14px;
+  padding: 6px 12px;
+}
 </style>
