@@ -45,8 +45,10 @@
 
         <template #tags>
           <div class="tags-info">
-            <span>九里堤火锅 </span>
-            <span> 四川火锅</span>
+            <div>
+              <span>{{ item.address }}  </span>
+              <span>  {{ item.category }}</span>
+            </div>
             <span>5.8km</span>
           </div>
           <div class="tags-rate">
