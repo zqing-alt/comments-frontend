@@ -144,7 +144,9 @@ export default {
       detailInfo: {}
     }
   },
-  computed: {},
+  computed: {
+
+  },
   watch: {},
   beforeMount () {
     this.getDetailInfo(this.storeId)
