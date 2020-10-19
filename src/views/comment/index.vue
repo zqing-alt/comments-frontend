@@ -133,7 +133,6 @@
       :style="{ height: '50%' }"
       class="pic_show_pop"
       closeable
-      v-if="addpicShow"
     >
       <van-uploader v-model="fileList" multiple :max-count="1" />
       <van-button type="primary" size="large" round @click="uploadPicture"
@@ -493,10 +492,12 @@ export default {
         // 关闭弹层，更新视图
         console.log(data)
         this.$toast('上传成功')
+        this.fileList = []
         this.addpicShow = false
       } catch (err) {
         console.log(err)
         this.$toast('上传失败')
+        this.fileList = []
         this.addpicShow = false
       }
     },
