@@ -24,11 +24,18 @@ const postUploadImg = data => {
   return request({
     method: 'post',
     url: '/comments/pictureUpload',
-    headers: { 'Content-Type': 'multipart.form-data' },
+    headers: { 'Content-Type': 'multipart/form-data' },
     data
   })
 }
 
+// 上传图片
+/* const postUploadImg = () => {
+  return request({
+    method: 'post',
+    url: '/comments/pictureUpload'
+  })
+}  */
 export {
   postComment,
   getDetail,

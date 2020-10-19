@@ -30,7 +30,7 @@
         :size="30"
       />
       <div class="describe_comment">
-        {{totalScore}}
+        {{ totalScore }}
       </div>
     </div>
     <!-- 开始隐藏的星星 -->
@@ -45,7 +45,7 @@
           :size="30"
         />
         <div class="describe_comment">
-          {{tasteScore}}
+          {{ tasteScore }}
         </div>
       </div>
 
@@ -59,7 +59,7 @@
           :size="30"
         />
         <div class="describe_comment">
-          {{environmentScore}}
+          {{ environmentScore }}
         </div>
       </div>
       <div class="comment">
@@ -72,7 +72,7 @@
           :size="30"
         />
         <div class="describe_comment">
-          {{serviceScore}}
+          {{ serviceScore }}
         </div>
       </div>
       <div class="comment">
@@ -85,7 +85,7 @@
           :size="30"
         />
         <div class="describe_comment">
-          {{foodScore}}
+          {{ foodScore }}
         </div>
       </div>
     </div>
@@ -109,9 +109,9 @@
       </van-button>
     </div>
     <!-- 上传图片视频区域 -->
-    <input type="file" hidden ref="inputFile" @change="inputChange">
+    <!-- <input type="file" hidden ref="inputFile" @change="inputChange"> -->
     <div class="upload_container">
-      <div class="upload_img" @click="$refs.inputFile.click()">
+      <div class="upload_img" @click="addpicShow = true">
         <img src="../../styles/image/zhaopian.png" />
         <span>上传图片</span>
       </div>
@@ -123,7 +123,56 @@
         100字+3张图或15秒视频有机会<span class="heght_text">赢100积分</span>
       </div>
     </div>
-<!--
+
+    <!-- <van-button type="primary" @click="addpicShow= true">测试按钮</van-button> -->
+    <!-- 上传图片的弹出层 -->
+    <van-popup
+      v-model="addpicShow"
+      round
+      position="bottom"
+      :style="{ height: '50%' }"
+      class="pic_show_pop"
+      closeable
+      v-if="addpicShow"
+    >
+      <van-uploader v-model="fileList" multiple :max-count="1" />
+      <van-button type="primary" size="large" round @click="uploadPicture"
+        >上传照片</van-button
+      >
+    </van-popup>
+
+    <!--  添加一个弹出层用来装话题和标题 -->
+    <van-popup
+      v-model="addTitleShow"
+      round
+      position="bottom"
+      :style="{ height: '50%' }"
+    >
+      <van-picker
+        title="选择标题"
+        show-toolbar
+        :columns="titleColumns"
+        @confirm="onChooseTitleConfirm"
+        @cancel="onChooseTitleCancel"
+      />
+    </van-popup>
+
+    <!-- 添加话题 -->
+    <van-popup
+      v-model="addTopicShow"
+      round
+      position="bottom"
+      :style="{ height: '50%' }"
+    >
+      <van-picker
+        title="选择标题"
+        show-toolbar
+        :columns="topicColumns"
+        @confirm="onChooseTopicConfirm"
+        @cancel="onChooseTopicCancel"
+      />
+    </van-popup>
+    <!--
       <div class="uploadd_img">
         <van-image
         fit="cover"
@@ -228,7 +277,35 @@ export default {
       // 店铺id
       storeId: null,
       averageScore: 0,
-      userID: sessionStorage.getItem('USER_ID')
+      userID: sessionStorage.getItem('USER_ID'),
+      // 添加标题的弹出层
+      addTitleShow: false,
+      // 添加话题
+      addTopicShow: false,
+      // 添加图片功能
+      addpicShow: false,
+      // 选择标题的数据
+      topicColumns: [
+        '#风犬少年的天空#',
+        '#熬夜猝死急救方法#',
+        '#Doinb复盘#',
+        '#小米80W无线秒充#',
+        '#TES队内语音#',
+        '#G2晋级四强#',
+        '#佟丽娅被儿子嫌弃太瘦了#',
+        '#罗志祥方拒绝综艺主持邀约#'
+      ],
+      titleColumns: [
+        '#美食#',
+        '#烧烤#',
+        '#火锅#',
+        '#小吃#',
+        '#海鲜#',
+        '#生鲜#'
+      ],
+      // uploader: [{ url: 'https://img.yzcdn.cn/vant/leaf.jpg' }],
+      // 上传文件的数组  数组中的对象就是图片的信息
+      fileList: []
     }
   },
   // todo星星联动
@@ -309,16 +386,24 @@ export default {
   },
   watch: {
     taste () {
-      this.total = parseInt((Math.floor(this.taste + this.environment + this.service + this.food)) / 4)
+      this.total = parseInt(
+        Math.floor(this.taste + this.environment + this.service + this.food) / 4
+      )
     },
     environment () {
-      this.total = parseInt((Math.floor(this.taste + this.environment + this.service + this.food)) / 4)
+      this.total = parseInt(
+        Math.floor(this.taste + this.environment + this.service + this.food) / 4
+      )
     },
     service () {
-      this.total = parseInt((Math.floor(this.taste + this.environment + this.service + this.food)) / 4)
+      this.total = parseInt(
+        Math.floor(this.taste + this.environment + this.service + this.food) / 4
+      )
     },
     food () {
-      this.total = parseInt((Math.floor(this.taste + this.environment + this.service + this.food)) / 4)
+      this.total = parseInt(
+        Math.floor(this.taste + this.environment + this.service + this.food) / 4
+      )
     }
   },
   created () {
@@ -361,7 +446,7 @@ export default {
     },
 
     // todo 上传图片 需要后台提供接口
-    async inputChange () {
+    /* async inputChange () {
       // 获取文件对象
       const file = this.$refs.inputFile.files[0]
       console.log(file)
@@ -379,6 +464,7 @@ export default {
         formData.append('photo', file)
         console.log(formData)
         const { data } = await postUploadImg(formData)
+        // const { data } = await postUploadImg()
         // 关闭弹层，更新视图
         console.log(data)
         this.$toast('更新成功')
@@ -386,15 +472,62 @@ export default {
         console.log(err)
         this.$toast('更新失败')
       }
+    }, */
+
+    // 更新后的上传图片功能
+    async uploadPicture () {
+      const file = this.fileList[0].file
+      console.log(file)
+      this.$toast.loading({
+        message: '上传中...',
+        forbidClick: true,
+        loadingType: 'spinner',
+        duration: 0
+      })
+      try {
+        const formData = new FormData()
+        formData.append('photo', file)
+        console.log(formData)
+        const { data } = await postUploadImg(formData)
+        // const { data } = await postUploadImg()
+        // 关闭弹层，更新视图
+        console.log(data)
+        this.$toast('上传成功')
+        this.addpicShow = false
+      } catch (err) {
+        console.log(err)
+        this.$toast('上传失败')
+        this.addpicShow = false
+      }
     },
+
     // 添加标题
     addTitle () {
-      this.describes += '#外卖小哥辛苦了#'
+      // this.describes += '#外卖小哥辛苦了#'
+      this.addTitleShow = true
+    },
+
+    onChooseTitleConfirm (value) {
+      this.describes += value
+      this.addTitleShow = false
+    },
+
+    onChooseTitleCancel () {
+      this.addTitleShow = false
     },
 
     // 添加话题
     addTopic () {
-      this.describes += '#成都美食推荐#'
+      // this.describes += '#成都美食推荐#'
+      this.addTopicShow = true
+    },
+    onChooseTopicConfirm (value) {
+      this.describes += value
+      this.addTopicShow = false
+    },
+
+    onChooseTopicCancel () {
+      this.addTopicShow = false
     }
   }
 }
@@ -542,4 +675,12 @@ export default {
     width: 33%;
   }
 } */
+
+.pic_show_pop {
+  box-sizing: border-box;
+  padding: 50px 20px 20px 20px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
 </style>
