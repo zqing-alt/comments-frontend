@@ -48,7 +48,7 @@
     <div class="tab">
       <van-tabs v-model="active" color="#ffcd00">
         <van-tab title="推荐" class="recommend">
-          <img :src="`http://192.168.32.45:80${item.picture}`" v-for="item in dataList" :key="item.id" @click="$router.push('/details?id='+item.id)" />
+          <img :src="`http://146.56.194.49${item.picture}`" v-for="item in dataList" :key="item.id" @click="$router.push('/details?id='+item.id)" />
         </van-tab>
         <van-tab title="附近"></van-tab>
         <van-tab title="达人"></van-tab>

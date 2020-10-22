@@ -304,7 +304,8 @@ export default {
       ],
       // uploader: [{ url: 'https://img.yzcdn.cn/vant/leaf.jpg' }],
       // 上传文件的数组  数组中的对象就是图片的信息
-      fileList: []
+      fileList: [],
+      dashData: []
     }
   },
   // todo星星联动
@@ -490,7 +491,8 @@ export default {
         const { data } = await postUploadImg(formData)
         // const { data } = await postUploadImg()
         // 关闭弹层，更新视图
-        console.log(data)
+        // console.log(data)
+        this.dashData = data
         this.$toast('上传成功')
         this.fileList = []
         this.addpicShow = false

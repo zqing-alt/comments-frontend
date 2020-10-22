@@ -115,7 +115,7 @@ export default {
         { text: '好评排序', value: 'b' },
         { text: '销量排序', value: 'c' }
       ],
-      baseUrl: 'http://192.168.32.33:80'
+      baseUrl: 'http://146.56.194.49'
     }
   },
   computed: {},

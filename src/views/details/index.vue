@@ -171,7 +171,7 @@ export default {
       this.detailInfo = res.data
     },
     goBack () {
-      this.$router.push('/search')
+      this.$router.push('/')
     }
   }
 }
